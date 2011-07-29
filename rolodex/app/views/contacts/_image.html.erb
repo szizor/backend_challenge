@@ -1,0 +1,7 @@
+<div id="image_container">
+  <% if @contact.photo.exists? then %>
+    <%= image_tag @contact.photo.url(:thumb) %>
+  <%else%>
+    <%= image_tag "/images/avatar.png" %>
+  <% end %>
+</div>

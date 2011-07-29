@@ -1,0 +1,19 @@
+<%= form_for @list, :remote => true do |f| %>
+  <% if @list.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @list.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <%=f.hidden_field :user_id,:value=>current_user.id%>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  
+  <p><%= f.submit "Save" %><input type="button" value="Cancel" name="commit" id="cancel_edit"></p>
+<% end %>

@@ -1,0 +1,4 @@
+<%for contact in @list.contacts.order("first_name")%>
+  <li><%=contact.full_name%> <%=link_to "remove", remove_contact_lists_path(:id=>contact, :list => @list.id),:id=>"contact_l"%></li>
+<%end%>
+

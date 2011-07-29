@@ -1,0 +1,16 @@
+<fieldset class="fields">
+  <legend>Phone numbers</legend>
+  <%= link_to_remove_fields "remove", f %><br />
+  <p>
+    <%= f.label :area_code %><br />
+    <%= f.text_field :area_code %>
+  </p>
+  <p>
+    <%= f.label :number %><br />
+    <%= f.text_field :number %>
+  </p>
+  <p>
+    <%= f.label :phone_type_id %><br />
+    <%= f.select( :phone_type_id, PhoneType.all.collect {|r| [r.name, r.id]}, {:include_blank => :true})%>
+  </p>
+</fieldset>

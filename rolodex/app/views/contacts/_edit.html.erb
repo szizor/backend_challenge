@@ -1,0 +1,33 @@
+<script type="text/javascript">
+  $(function(){
+    $("#form_images").ajaxForm({dataType: 'script'});
+  });
+  $(function(){
+    $("#contact_photo").change(function(){
+      $("#progress_bar_img").show();
+      $("#form_images").trigger("submit");
+
+    });
+  });
+</script>
+<% title "Edit Contact" %>
+
+<%= render 'form' %>
+
+<%=render 'image'%>
+
+<fieldset>
+  <legend>Image</legend>
+  <%= form_for(:contact, :url => image_contact_path, :html => { :multipart => true, :id => "form_images"}) do |f| -%>
+
+    <%= hidden_field_tag :format, 'js' %>
+
+    <label for="imagenes_uploaded_data">Upload Image (Best if less than 2MB & horizontal)</label><br/>
+    <%= f.file_field :photo %>
+
+    <div id="progress_bar_img" style="margin:0px 120px;display:none;">
+      <%= image_tag 'ajax-loader_spinner.gif', :width => "32px", :height => "32px" %>
+    </div>
+  <% end -%>
+</fieldset>
+

@@ -1,0 +1,52 @@
+<script>
+  $(function() {
+    $( "#contacts td" ).draggable({
+      appendTo: "body",
+      helper: "clone"
+    });
+    $( "#cart ol" ).droppable({
+      hoverClass : 'legal_hover',
+      drop : function(event, ui) {
+
+        var c = new Object();
+        c['cell'] = ui.draggable.attr("id");
+        c['list'] = <%=@list.id%>;
+        //c['authenticity_token'] = encodeURIComponent(window._token);
+
+        $.ajax({
+          type: "POST",
+          url: "/lists/add_contact",
+          data: c,
+          timeout: 5000
+        });
+      }});
+
+  });
+</script>
+<h1>List</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @list.name %>
+</p>
+<p>
+  <strong>Created</strong>
+  <%= @list.created_at.strftime("%B %e, %Y") %>
+</p>
+<div id="cart">
+  <h1 class="ui-widget-header">Contacts</h1>
+  <div class="ui-widget-content">
+    <ol class="ui-droppable ui-sortable">
+      <div id="insert">
+        <%="Add your items here" if @list.contacts.empty?%>
+        <%=render "contacts"%>
+      </div>
+    </ol>
+  </div>
+</div>
+
+<p>
+  <%= link_to "Edit", edit_list_path(@list),:id=>"edit_l" %> |
+  <%= link_to "Destroy", @list, :confirm => 'Are you sure?', :method => :delete,:id=>"delete_l" %> |
+  <%= link_to "View All", lists_path %>
+</p>
