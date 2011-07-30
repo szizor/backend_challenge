@@ -2,7 +2,13 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'webrat'
+require 'webrat/core/matchers'
 
+Webrat.configure do |config|
+  config.mode = :rack
+  config.open_error_files = false # Set to true if you want error pages to pop up in the browser
+end
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}

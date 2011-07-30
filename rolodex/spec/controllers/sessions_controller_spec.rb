@@ -8,7 +8,7 @@ describe SessionsController do
       response.should be_success
     end
   end
-  describe "Sessions" do
+ 
 
     describe "signup" do
 
@@ -27,7 +27,6 @@ describe SessionsController do
           end.should_not change(User, :count)
         end
       end
-    end
-  end
+   end
 
 end

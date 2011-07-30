@@ -8,7 +8,6 @@ class PhoneNumber < ActiveRecord::Base
 
   validates_presence_of :area_code
   validates_presence_of :number
-  validates_uniqueness_of :number, :scope => [:area_code, :contact_id]
 
   validates_format_of :area_code, :with => /^\d{3}$/,
                       :message => INVALID_PHONE_MESSAGE

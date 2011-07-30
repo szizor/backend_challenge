@@ -12,9 +12,6 @@ describe PhoneNumber do
   it { should validate_presence_of(:area_code) }
   it { should validate_presence_of(:number) }
 
-  it { should validate_uniqueness_of(:number).
-                  scoped_to(:area_code, :contact_id) }
-
   it { should validate_format_of(:area_code).
                   with('123').
                   with_message(/invalid phone number/) }
@@ -31,10 +28,11 @@ describe PhoneNumber do
                   not_with('12345678').
                   with_message(/invalid phone number/) }
 
+
   describe 'the full_number virtual attribute' do
     it "should create a formated full number from valid area code and number" do
       @phone_number.area_code = '123'
-      @phone_number.number    = '1234567'
+      @phone_number.number = '1234567'
 
       @phone_number.full_number.should == '(123)-123-4567'
     end
@@ -43,11 +41,14 @@ describe PhoneNumber do
       @phone_number.full_number = '(123)-123-4567'
 
       @phone_number.area_code.should == '123'
-      @phone_number.number.should    == '1234567'
+      @phone_number.number.should == '1234567'
     end
   end
 
-  pending 'should delegate phone type name to phone type model'
-  pending 'should have a virtual attribute setter for the phone type'
+  it "should delegate phone_type.name to phone type" do
+    phone_type = Factory(:phone_type, :name => 'home')
+    @phone_number.phone_type = phone_type
+    @phone_number.phone_type.name.should == 'home'
+  end
 
 end

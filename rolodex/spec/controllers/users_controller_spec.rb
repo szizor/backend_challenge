@@ -8,9 +8,7 @@ describe UsersController do
       response.should be_success
     end
   end
-  require 'spec_helper'
-
-  describe User do
+ 
 
     before(:each) do
       @attr = { 
@@ -47,12 +45,6 @@ describe UsersController do
           invalid_email_user = User.new(@attr.merge(:email => address))
           invalid_email_user.should_not be_valid
         end
-      end
-
-      it "should reject email address idential up to case" do
-        User.create!(@attr)
-        user = User.new(@attr.merge(:email => @attr[:email].capitalize))
-        user.should_not be_valid
       end
 
     end
@@ -105,4 +97,3 @@ describe UsersController do
   end
 
 
-end

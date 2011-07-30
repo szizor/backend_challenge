@@ -6,7 +6,8 @@ Rolodex::Application.routes.draw do
   get "signup" => "users#new", :as => "signup"
   get "contacts" => "contacts#index", :as => "contacts"
   get "lists" => "lists#index", :as => "lists"
-  root :to => "rolodex#index"
+  get "contacts_dashboard" =>"rolodex#index", :as=>"contacts_dashboard"
+  root :to => "sessions#new"
   
   resources :users
   resources :sessions
