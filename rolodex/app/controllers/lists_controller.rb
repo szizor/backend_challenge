@@ -10,6 +10,7 @@ class ListsController < ApplicationController
 
   def create
     @list = List.new(params[:list])
+    @lists = List.where("user_id = ?", current_user.id)
     if @list.save
     else
       render :action => 'new'
@@ -23,10 +24,8 @@ class ListsController < ApplicationController
   def update
     @list = List.find(params[:id])
     if @list.update_attributes(params[:list])
+      @lists = List.where("user_id = ?", current_user.id)
       flash[:notice] = "List Successfully updated."
-      redirect_to @list
-    else
-      render :action => 'edit'
     end
   end
 
@@ -35,6 +34,12 @@ class ListsController < ApplicationController
     @list.destroy
     flash[:notice] = "List Successfully destroyed."
     redirect_to lists_url
+  end
+
+  def export
+    @list=List.find(params[:id])
+    cards=@list.vcards
+    send_data cards.to_s, :filename => "#{@list.name}.vcf"
   end
 
   def add_contact

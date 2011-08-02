@@ -1,2 +1,12 @@
-$('#layouts').html('Contact Created');
-$("#contacts").html("<%= escape_javascript(render("contacts_list"))%>");
+<% if @contact.errors.any? -%>
+  $("#flash_notice").hide(300);
+  <%@tipo=@contact%>
+  $("#post_errors").html("<%= escape_javascript(render("/shared/error"))%>");
+  $("#post_errors").show(300);
+<% else -%>
+  $("#post_errors").hide(300);
+  $("#flash_notice").html("<%= escape_javascript(flash[:notice])%>");
+  $("#flash_notice").show(300);
+  $('#layouts').html('Contact Created');
+  $("#contacts").html("<%= escape_javascript(render("contacts_list"))%>");
+<% end -%>

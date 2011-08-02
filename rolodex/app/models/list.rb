@@ -14,4 +14,13 @@ class List < ActiveRecord::Base
       scoped
     end
   end
+
+  def vcards
+    contacts=self.contacts
+    vcards=""
+    contacts.each do |contact|
+        vcards << contact.vcards
+    end
+    vcards
+  end
 end

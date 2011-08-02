@@ -1,12 +1,12 @@
-<% if @contact.errors.any? -%>
+<% if @list.errors.any? -%>
   $("#flash_notice").hide(300);
-  <%@tipo=@contact%>
+  <%@tipo=@list%>
   $("#post_errors").html("<%= escape_javascript(render("/shared/error"))%>");
   $("#post_errors").show(300);
 <% else -%>
   $("#post_errors").hide(300);
   $("#flash_notice").html("<%= escape_javascript(flash[:notice])%>");
   $("#flash_notice").show(300);
-  $('#layouts').html('Contact Updated');
-  $("#contacts").html("<%= escape_javascript(render("contacts_list"))%>");
+  $('#layouts').html('List Updated');
+  $("#contacts").html("<%= escape_javascript(render("lists"))%>");
 <% end -%>

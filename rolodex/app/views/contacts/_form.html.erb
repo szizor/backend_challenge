@@ -1,14 +1,5 @@
 <%= form_for @contact, :remote => true do |f| %>
-  <% if @contact.errors.any? %>
-    <div class="error_messages">
-      <h2>Form is invalid</h2>
-      <ul>
-        <% for message in @contact.errors.full_messages %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+   <div id= "post_errors" style="display:none"></div>
   <%=f.hidden_field :user_id,:value=>current_user.id%>
   <fieldset>
     <legend>Full Name</legend>
@@ -33,6 +24,5 @@
   <%= f.fields_for :phone_numbers do |add| %>
     <%= render 'phone_number_fields', :f => add %>
   <%  end %>
-  <%= f.file_field :avatar %>
   <p><%= f.submit "Save" %><input type="button" value="Cancel" name="commit" id="cancel_edit"></p>
 <% end %>

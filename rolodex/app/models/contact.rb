@@ -21,6 +21,35 @@ class Contact < ActiveRecord::Base
 
   end
 
+  def vcards
+    card = Vpim::Vcard::Maker.make2 do |maker|
+      maker.add_photo do |photo|
+        photo.image = "File.open('#{self.photo.url(:thumb)}').read # a fake string, real data is too large :-)"
+        photo.type = 'jpeg'
+      end if self.photo
+      maker.add_name do |name|
+        name.prefix = ''
+        name.given = self.first_name
+        name.family = self.last_name
+      end
+      for address in self.addresses
+        maker.add_addr do |addr|
+          #addr.preferred = true
+          addr.location = address.address_type.name if address.address_type
+          addr.street = address.address if address.address
+          addr.locality = address.city if address.city
+          addr.country = address.country if address.country
+        end
+      end
+
+      for phone in self.phone_numbers
+        maker.add_tel(phone.full_number)
+      end
+
+    end
+    card.to_s
+  end
+
    def full_name
     "#{first_name} #{middle_name} #{last_name}"
   end

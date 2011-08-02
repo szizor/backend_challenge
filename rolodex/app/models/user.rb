@@ -28,4 +28,13 @@ class User < ActiveRecord::Base
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
   end
+
+  def vcards
+    contacts=self.contacts
+    vcards=""
+    contacts.each do |contact|
+        vcards << contact.vcards
+    end
+    vcards
+  end
 end

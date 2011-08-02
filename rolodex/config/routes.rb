@@ -13,13 +13,14 @@ Rolodex::Application.routes.draw do
   resources :sessions
   resources :contacts do
     post :image, :on => :member
-
+    get :exp_all, :on => :member
     collection do
       post :image
       get :view
     end
   end
   resources :lists do
+    get :export, :on => :member
     collection do
       post :add_contact
       get :remove_contact
