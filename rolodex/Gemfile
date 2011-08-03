@@ -16,9 +16,12 @@ group :test do
   gem 'test_notifier'
   gem 'rspec-rails', '2.6.1'
   gem 'rspec'
-  gem 'webrat', '0.7.1'
   gem "autotest"
-  gem 'webrat', '0.7.1'
   gem "factory_girl_rails"
   gem "win32console"
+  gem "database_cleaner"
+  gem "cucumber-rails"
+  gem "cucumber"
+  gem "spork"
+  gem "launchy"
 end

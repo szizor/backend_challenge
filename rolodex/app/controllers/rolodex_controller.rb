@@ -1,6 +1,6 @@
 class RolodexController < ApplicationController
   helper_method :sort_column, :sort_direction
-  
+  before_filter :logged_in?
   def index
     @contacts = Contact.search(params[:search]).where("user_id = ?", current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 5, :page => params[:page])
     @lists = List.where("user_id = ?", current_user.id)

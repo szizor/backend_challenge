@@ -1,99 +1,24 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UsersController do
+  fixtures :all
+  integrate_views
 
-  describe "GET 'new'" do
-    it "should be successful" do
-      get 'new'
-      response.should be_success
-    end
-  end
- 
-
-    before(:each) do
-      @attr = { 
-        :email => "user@example.com",
-        :password => "password",
-        :password_confirmation => "password"
-      }
-    end
-    
-    describe "email validations" do
-
-      it "should require an email" do
-        no_email_user = User.new(@attr.merge(:email => ""))
-        no_email_user.should_not be_valid
-      end
-
-      it "should reject duplicate emails" do
-        User.create!(@attr)
-        user2 = User.new(@attr.merge(:username => "example2"))
-        user2.should_not be_valid
-      end
-
-      it "should accept valid email addresses" do
-        addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
-        addresses.each do |address|
-          valid_email_user = User.new(@attr.merge(:email => address))
-          valid_email_user.should be_valid
-        end
-      end
-
-      it "should reject invalid email addresses" do
-        addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
-        addresses.each do |address|
-          invalid_email_user = User.new(@attr.merge(:email => address))
-          invalid_email_user.should_not be_valid
-        end
-      end
-
-    end
-
-
-
-    describe "password validations" do
-
-      it "should require a password or a password confirmation" do
-        user = User.new(@attr.merge(:password => "", :password_confirmation => ""))
-        user.should_not be_valid
-      end
-
-      it "should require a password" do
-        user = User.new(@attr.merge(:password => ""))
-        user.should_not be_valid
-      end
-
-      it "should require a password confirmation" do
-        user = User.new(@attr.merge(:password_confirmation => ""))
-        user.should_not be_valid
-      end
-
-      it "should require a matching password confirmation" do
-        user = User.new(@attr.merge(:password_confirmation => "invalid"))
-        user.should_not be_valid
-      end
-
-      it "should reject passwords that are too short" do
-        password = "a" * 5
-        user = User.new(@attr.merge(:password => password, :password_confirmation => password))
-        user.should_not be_valid
-      end
-
-      it "should reject passwords that are too long" do
-        password = "a" * 41
-        user = User.new(@attr.merge(:password => password, :password_confirmation => password))
-        user.should_not be_valid
-      end
-
-      it "should require case sensative password confirmations" do
-        password = "password"
-        user = User.new(@attr.merge(:password => password,
-            :password_confirmation => password.capitalize))
-        user.should_not be_valid
-      end
-
-    end
-
+  it "new action should render new template" do
+    get :new
+    response.should render_template(:new)
   end
 
+  it "create action should render new template when model is invalid" do
+    User.any_instance.stubs(:valid?).returns(false)
+    post :create
+    response.should render_template(:new)
+  end
 
+  it "create action should redirect when model is valid" do
+    User.any_instance.stubs(:valid?).returns(true)
+    post :create
+    response.should redirect_to(root_url)
+    session['user_id'].should == assigns['user'].id
+  end
+end
