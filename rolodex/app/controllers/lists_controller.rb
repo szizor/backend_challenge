@@ -1,3 +1,4 @@
+require 'vpim/vcard'
 class ListsController < ApplicationController
 
   def show
